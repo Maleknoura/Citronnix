@@ -1,5 +1,6 @@
 package org.wora.citronnix.farm.application.dto.request;
 
+import jakarta.validation.constraints.Positive;
 import org.wora.citronnix.farm.domain.valueObject.Superficie;
 
 import java.time.LocalDate;
@@ -12,7 +13,9 @@ public record FarmRequestDTO(
 
         @NotBlank(message = "La localisation ne peut pas être vide") String localisation,
 
-        @NotNull(message = "La superficie ne peut pas être nulle") Superficie superficie,
+        @NotNull(message = "La superficie ne peut pas être nulle")
+        @Positive(message = "la superficie doit etre positive")
+        Superficie superficie,
 
         @NotNull(message = "La date de création ne peut pas être nulle") LocalDate dateCreation
 ) {
