@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.wora.citronnix.field.entity.Field;
+import org.wora.citronnix.farm.entity.Field;
+import org.wora.citronnix.tree.valueObject.ProductiviteTree;
 
 import java.time.LocalDate;
 
@@ -29,11 +30,7 @@ public class Tree {
     }
 
     @Transient
-    public double getProductiviteAnnuelle() {
-        int age = getAge();
-        if (age < 3) return 2.5;
-        if (age <= 10) return 12.0;
-        if (age <= 20) return 20.0;
-        return 0.0;
+    public ProductiviteTree getProductivite() {
+        return ProductiviteTree.calculerProductivite(getAge());
     }
 }

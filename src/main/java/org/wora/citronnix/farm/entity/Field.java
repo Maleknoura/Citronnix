@@ -1,10 +1,9 @@
-package org.wora.citronnix.field.entity;
+package org.wora.citronnix.farm.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
-import org.wora.citronnix.farm.entity.Farm;
 import org.wora.citronnix.harvest.entity.DetailHarvest;
 import org.wora.citronnix.tree.entity.Tree;
 
@@ -20,7 +19,7 @@ public class Field {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ferme_id", nullable = false)
+    @JoinColumn(name = "farm_id", nullable = false)
     private Farm farm;
 
     @Min(value = 1000)

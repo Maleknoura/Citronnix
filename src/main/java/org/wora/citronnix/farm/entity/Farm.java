@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.wora.citronnix.field.entity.Field;
 
 
 import java.time.LocalDate;
