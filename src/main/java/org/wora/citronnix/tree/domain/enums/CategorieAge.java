@@ -1,4 +1,4 @@
-package org.wora.citronnix.tree.enums;
+package org.wora.citronnix.tree.domain.enums;
 
 public enum CategorieAge {
     JEUNE,

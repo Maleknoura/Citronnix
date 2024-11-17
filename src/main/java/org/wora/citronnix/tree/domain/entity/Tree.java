@@ -1,11 +1,11 @@
-package org.wora.citronnix.tree.entity;
+package org.wora.citronnix.tree.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.wora.citronnix.farm.domain.entity.Field;
-import org.wora.citronnix.tree.valueObject.ProductiviteTree;
+import org.wora.citronnix.tree.domain.valueObject.PeriodePlantation;
+import org.wora.citronnix.tree.domain.valueObject.TreeProductivity;
 
 import java.time.LocalDate;
 
@@ -21,16 +21,17 @@ public class Tree {
     @JoinColumn(name = "field_id", nullable = false)
     private Field field;
 
-    @NotNull
-    private LocalDate datePlantation;
-
+    @Embedded
+    private PeriodePlantation datePlantation;
+    @Embedded
+    private TreeProductivity productivity;
     @Transient
     public int getAge() {
         return LocalDate.now().getYear() - datePlantation.getYear();
     }
 
     @Transient
-    public ProductiviteTree getProductivite() {
-        return ProductiviteTree.calculerProductivite(getAge());
+    public TreeProductivity getProductivite() {
+        return TreeProductivity.calculerProductivite(getAge());
     }
 }

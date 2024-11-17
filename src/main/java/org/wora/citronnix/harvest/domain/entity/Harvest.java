@@ -1,12 +1,12 @@
-package org.wora.citronnix.harvest.entity;
+package org.wora.citronnix.harvest.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
-import org.wora.citronnix.harvest.enums.Season;
-import org.wora.citronnix.sale.entity.Sale;
+import org.wora.citronnix.harvest.domain.enums.Season;
+import org.wora.citronnix.sale.domain.entity.Sale;
 
 import java.time.LocalDate;
 import java.util.HashSet;

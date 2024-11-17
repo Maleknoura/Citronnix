@@ -1,4 +1,4 @@
-package org.wora.citronnix.sale.entity;
+package org.wora.citronnix.sale.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
-import org.wora.citronnix.harvest.entity.Harvest;
+import org.wora.citronnix.harvest.domain.entity.Harvest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

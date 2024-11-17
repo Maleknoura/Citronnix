@@ -1,4 +1,4 @@
-package org.wora.citronnix.harvest.enums;
+package org.wora.citronnix.harvest.domain.enums;
 
 public enum Season {
     WINTER,

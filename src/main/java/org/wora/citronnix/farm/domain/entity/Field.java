@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.wora.citronnix.farm.domain.valueObject.Superficie;
-import org.wora.citronnix.harvest.entity.DetailHarvest;
-import org.wora.citronnix.tree.entity.Tree;
+import org.wora.citronnix.harvest.domain.entity.DetailHarvest;
+import org.wora.citronnix.tree.domain.entity.Tree;
 
 import java.util.HashSet;
 import java.util.Set;

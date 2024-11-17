@@ -1,4 +1,4 @@
-package org.wora.citronnix.tree.valueObject;
+package org.wora.citronnix.tree.domain.valueObject;
 
 import jakarta.persistence.Embeddable;
 import lombok.NoArgsConstructor;
@@ -21,6 +21,11 @@ public class PeriodePlantation {
     private boolean estPeriodeValide(LocalDate date) {
         Month month = date.getMonth();
         return month.compareTo(Month.MARCH) >= 0 && month.compareTo(Month.MAY) <= 0;
+    }
+
+
+    public int getYear() {
+        return date.getYear();
     }
 }
 
