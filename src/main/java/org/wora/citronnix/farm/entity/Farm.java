@@ -6,13 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.wora.citronnix.field.entity.Field;
 
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +37,7 @@ public class Farm {
     @NotNull
     private LocalDate dateCreation;
 
-    @OneToMany(mappedBy = "ferme", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
     @Size(max = 10)
     private Set<Field> champs = new HashSet<>();
 }
