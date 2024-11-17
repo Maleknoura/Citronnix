@@ -1,4 +1,4 @@
-package org.wora.citronnix.farm.enums;
+package org.wora.citronnix.farm.domain.enums;
 
 public enum UniteSuperficie {
     HECTARE,

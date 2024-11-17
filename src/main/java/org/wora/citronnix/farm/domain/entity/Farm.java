@@ -1,14 +1,14 @@
-package org.wora.citronnix.farm.entity;
+package org.wora.citronnix.farm.domain.entity;
 
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.wora.citronnix.farm.domain.valueObject.Superficie;
 
 
 import java.time.LocalDate;
@@ -30,13 +30,13 @@ public class Farm {
     @NotBlank
     private String localisation;
 
-    @Positive
-    private Double superficie;
+    @Embedded
+    private Superficie superficie;
 
     @NotNull
     private LocalDate dateCreation;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
     @Size(max = 10)
-    private Set<Field> champs = new HashSet<>();
+    private Set<Field> fields = new HashSet<>();
 }

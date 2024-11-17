@@ -1,9 +1,9 @@
-package org.wora.citronnix.farm.entity;
+package org.wora.citronnix.farm.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
+import org.wora.citronnix.farm.domain.valueObject.Superficie;
 import org.wora.citronnix.harvest.entity.DetailHarvest;
 import org.wora.citronnix.tree.entity.Tree;
 
@@ -22,13 +22,13 @@ public class Field {
     @JoinColumn(name = "farm_id", nullable = false)
     private Farm farm;
 
-    @Min(value = 1000)
-    private Double superficie;
+    @Embedded
+    private Superficie superficie;
 
-    @OneToMany(mappedBy = "champ", cascade = CascadeType.ALL)
-    private Set<Tree> arbres = new HashSet<>();
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
+    private Set<Tree> Trees = new HashSet<>();
 
-    @OneToMany(mappedBy = "champ")
+    @OneToMany(mappedBy = "field")
     private Set<DetailHarvest> harvest = new HashSet<>();
 }
 

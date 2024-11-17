@@ -30,7 +30,7 @@ public class Sale {
 
     @ManyToOne
     @JoinColumn(name = "harvest_id", nullable = false)
-    private Harvest recolte;
+    private Harvest harvest;
 
     @Positive
     private Double quantite;

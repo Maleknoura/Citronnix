@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.wora.citronnix.farm.entity.Field;
+import org.wora.citronnix.farm.domain.entity.Field;
 import org.wora.citronnix.tree.valueObject.ProductiviteTree;
 
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ public class Tree {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "champ_id", nullable = false)
+    @JoinColumn(name = "field_id", nullable = false)
     private Field field;
 
     @NotNull
