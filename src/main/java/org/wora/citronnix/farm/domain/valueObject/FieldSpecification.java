@@ -33,7 +33,8 @@ public class FieldSpecification {
 
 
     private void validateNumberOfFields(Farm farm) {
-        if (farm.getFields().size() >= 10) {
+        long fieldCount = fieldRepository.countByFarm(farm);
+        if (fieldCount >= 10) {
             throw new IllegalStateException("Une ferme ne peut contenir plus de 10 champs");
         }
     }
