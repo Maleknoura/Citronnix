@@ -25,7 +25,7 @@ public class Farm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotBlank
+    @NotBlank
     private String nom;
 
     @NotBlank
@@ -33,7 +33,7 @@ public class Farm {
     private String localisation;
 
     @NotNull
-//    @Min(value = 0, message = "La superficie doit être positive")
+    @Min(value = 0, message = "La superficie doit être positive")
     private Double superficie;
 
     @NotNull

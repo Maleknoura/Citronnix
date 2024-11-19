@@ -18,6 +18,7 @@ public interface FarmMapper {
     @Mapping(target = "superficie", source = "superficie")
     Farm toFarm(FarmRequestDTO farmRequestDTO);
 
+
     FarmResponseDTO toFarmResponseDto(Farm farm);
 
 

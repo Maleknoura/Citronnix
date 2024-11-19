@@ -11,6 +11,7 @@ import org.wora.citronnix.farm.application.dto.request.FarmRequestDTO;
 import org.wora.citronnix.farm.application.dto.response.FarmResponseDTO;
 import org.wora.citronnix.farm.application.sevice.FarmService;
 import org.wora.citronnix.farm.application.sevice.impl.FarmServiceImpl;
+import org.wora.citronnix.farm.domain.repository.FarmRepository;
 
 import java.util.List;
 
@@ -18,9 +19,12 @@ import java.util.List;
 @RequestMapping("/farms")
 public class FarmController {
     private final FarmServiceImpl farmService;
+    private final FarmRepository farmRepository;
+
     @Autowired
-    public FarmController(FarmServiceImpl farmService) {
+    public FarmController(FarmServiceImpl farmService, FarmRepository farmRepository) {
         this.farmService = farmService;
+        this.farmRepository = farmRepository;
     }
 
     @GetMapping
@@ -32,5 +36,10 @@ public class FarmController {
     public ResponseEntity<FarmResponseDTO>save(@RequestBody @Valid FarmRequestDTO farmRequestDTO){
         FarmResponseDTO savedfarms = farmService.save(farmRequestDTO);
         return new ResponseEntity<>(savedfarms,HttpStatus.CREATED);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void>delete(@PathVariable long id){
+        farmService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
