@@ -42,4 +42,11 @@ public class FarmController {
         farmService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<FarmResponseDTO> updateFarm(
+            @PathVariable Long id,
+            @RequestBody @Valid FarmRequestDTO farmRequestDTO) {
+        FarmResponseDTO updatedFarm = farmService.update(id, farmRequestDTO);
+        return ResponseEntity.ok(updatedFarm);
+    }
 }

@@ -2,6 +2,7 @@ package org.wora.citronnix.farm.application.Mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.wora.citronnix.farm.application.dto.request.FarmRequestDTO;
 import org.wora.citronnix.farm.application.dto.response.FarmResponseDTO;
@@ -20,11 +21,13 @@ public interface FarmMapper {
 
 
     FarmResponseDTO toFarmResponseDto(Farm farm);
+    void updateFarmFromDTO(FarmRequestDTO farmRequestDTO, @MappingTarget Farm farm);
 
 
-    // Add utility method to handle date conversion if needed
     @Named("toLocalDate")
     default LocalDate toLocalDate(String date) {
         return date != null ? LocalDate.parse(date) : null;
     }
+
+    Farm toEntity(FarmResponseDTO farmResponseDTO);
 }

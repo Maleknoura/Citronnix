@@ -71,7 +71,20 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public FarmResponseDTO update(Long aLong, FarmRequestDTO farmRequestDTO) {
-        return null;
+    public FarmResponseDTO update(Long id, FarmRequestDTO farmRequestDTO) {
+        Optional<Farm> existingFarm = farmRepository.findById(id);
+
+        if (existingFarm.isPresent()) {
+            Farm farm = existingFarm.get();
+
+            farmMapper.updateFarmFromDTO(farmRequestDTO, farm);
+
+            Farm updatedFarm = farmRepository.save(farm);
+
+            return farmMapper.toFarmResponseDto(updatedFarm);
+        } else {
+            throw new EntityNotFoundException("Farm not found with id: " + id);
+        }
     }
+
 }
