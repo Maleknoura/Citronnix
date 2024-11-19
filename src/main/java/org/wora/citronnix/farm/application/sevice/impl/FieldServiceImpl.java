@@ -21,6 +21,7 @@ import java.util.List;
 public class FieldServiceImpl implements FieldService {
     private final FieldRepository fieldRepository;
     private final FarmServiceImpl farmService;
+
     private final FieldMapper fieldMapper;
     private final FarmMapper farmMapper;
     @Override
@@ -28,7 +29,8 @@ public class FieldServiceImpl implements FieldService {
         return null;
     }
     @Transactional
-    public FieldResponseDTO createField(FieldRequestDTO fieldRequestDTO) {
+    @Override
+    public FieldResponseDTO save(FieldRequestDTO fieldRequestDTO) {
         FarmResponseDTO farmResponseDTO = farmService.findById(fieldRequestDTO.farmId());
         if (farmResponseDTO == null) {
             throw new EntityNotFoundException("Ferme non trouvée");
@@ -36,7 +38,12 @@ public class FieldServiceImpl implements FieldService {
 
         Farm farm = farmMapper.toEntity(farmResponseDTO);
         Field field = fieldMapper.toEntity(fieldRequestDTO, farm);
-        new FieldSpecification(field.getSuperficie(), farm);
+
+        if (field.getId() != null) {
+            field.setId(null);
+        }
+
+        new FieldSpecification(field.getSuperficie(), farm,fieldRepository);
 
         Field savedField = fieldRepository.save(field);
         return fieldMapper.toResponseDTO(savedField);
@@ -46,15 +53,17 @@ public class FieldServiceImpl implements FieldService {
         return List.of();
     }
 
-    @Override
-    public FieldResponseDTO save(FieldRequestDTO fieldRequestDTO) {
-        return null;
-    }
+
 
     @Override
-    public void deleteById(Long aLong) {
-
+    public void deleteById(Long id) {
+        if (fieldRepository.existsById(id)) {
+            fieldRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Champ non trouvé avec l'id : " + id);
+        }
     }
+
 
     @Override
     public FieldResponseDTO update(Long aLong, FieldRequestDTO fieldRequestDTO) {

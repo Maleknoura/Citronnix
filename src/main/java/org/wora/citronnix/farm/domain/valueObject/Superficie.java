@@ -17,6 +17,7 @@ public class Superficie {
         this.valeurEnHectares = valeurEnHectares;
     }
 
+
     public void validateMaxSuperficie(Double farmSuperficie) {
         if (valeurEnHectares > (farmSuperficie * 0.5)) {
             throw new IllegalArgumentException("La superficie du champ ne peut pas dépasser 50% de la superficie de la ferme");
