@@ -65,8 +65,22 @@ public class FieldServiceImpl implements FieldService {
     }
 
 
+    @Transactional
     @Override
-    public FieldResponseDTO update(Long aLong, FieldRequestDTO fieldRequestDTO) {
-        return null;
+    public FieldResponseDTO update(Long fieldId, FieldRequestDTO fieldRequestDTO) {
+        Field existingField = fieldRepository.findById(fieldId)
+                .orElseThrow(() -> new EntityNotFoundException("Champ non trouvé"));
+
+        FarmResponseDTO farmResponseDTO = farmService.findById(existingField.getFarm().getId());
+        Farm farm = farmMapper.toEntity(farmResponseDTO);
+
+        Field updatedField = fieldMapper.toEntity(fieldRequestDTO, farm);
+        updatedField.setId(fieldId);
+
+        new FieldSpecification(updatedField.getSuperficie(), farm, fieldRepository);
+
+        Field savedField = fieldRepository.save(updatedField);
+        return fieldMapper.toResponseDTO(savedField);
     }
+
 }

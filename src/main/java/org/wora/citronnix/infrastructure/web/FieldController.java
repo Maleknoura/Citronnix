@@ -28,4 +28,12 @@ public class FieldController {
         fieldServiceImpl.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @PutMapping("/{fieldId}")
+    public ResponseEntity<FieldResponseDTO> updateField(
+            @PathVariable Long fieldId,
+            @RequestBody FieldRequestDTO fieldRequestDTO) {
+
+        FieldResponseDTO updatedField = fieldServiceImpl.update(fieldId, fieldRequestDTO);
+        return ResponseEntity.ok(updatedField);
+    }
 }

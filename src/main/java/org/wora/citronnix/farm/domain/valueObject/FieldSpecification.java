@@ -28,10 +28,6 @@ public class FieldSpecification {
         superficie.validateMaxSuperficie(farm.getSuperficie());
     }
 
-
-
-
-
     private void validateNumberOfFields(Farm farm) {
         long fieldCount = fieldRepository.countByFarm(farm);
         if (fieldCount >= 10) {
@@ -53,7 +49,6 @@ public class FieldSpecification {
             throw new IllegalArgumentException("La somme des superficies des champs dépasse la superficie de la ferme");
         }
     }
-
 
 
 }
