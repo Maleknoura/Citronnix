@@ -14,6 +14,7 @@ import org.wora.citronnix.farm.domain.entity.Farm;
 import org.wora.citronnix.farm.domain.repository.FarmRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,9 +30,15 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public FarmResponseDTO findById(Long aLong) {
-        return null;
+    public FarmResponseDTO findById(Long id) {
+        Optional<Farm> farm = farmRepository.findById(id);
+        if (farm.isPresent()) {
+            return farmMapper.toFarmResponseDto(farm.get());
+        } else {
+            throw new EntityNotFoundException("Farm not found with id: " + id);
+        }
     }
+
 
     @Override
     public List<FarmResponseDTO> findAll() {
@@ -61,5 +68,10 @@ public class FarmServiceImpl implements FarmService {
         } else {
             throw new EntityNotFoundException("farm not found with id :" + id);
         }
+    }
+
+    @Override
+    public FarmResponseDTO update(Long aLong, FarmRequestDTO farmRequestDTO) {
+        return null;
     }
 }

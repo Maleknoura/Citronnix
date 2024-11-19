@@ -7,5 +7,6 @@ public interface GenericService<T, ID, RequestDTO, ResponseDTO> {
     List<ResponseDTO> findAll();
     ResponseDTO save(RequestDTO requestDTO);
     void deleteById(ID id);
+    ResponseDTO update(ID id, RequestDTO requestDTO);
 }
 
