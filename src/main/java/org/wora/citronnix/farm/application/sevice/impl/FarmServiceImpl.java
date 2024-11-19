@@ -1,5 +1,6 @@
 package org.wora.citronnix.farm.application.sevice.impl;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,17 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public FarmResponseDTO save(FarmRequestDTO farmRequestDTO) {
+        if (farmRepository.existsByNom(farmRequestDTO.nom())) {
+            throw new EntityExistsException("Le nom de la ferme '" + farmRequestDTO.nom() + "' est déjà pris.");
+        }
+
         Farm farm = farmMapper.toFarm(farmRequestDTO);
-        Farm savedfarms = farmRepository.save(farm);
-        return farmMapper.toFarmResponseDto(savedfarms);
+
+        Farm savedFarm = farmRepository.save(farm);
+
+        return farmMapper.toFarmResponseDto(savedFarm);
     }
+
 
     @Override
     public void deleteById(Long id) {
