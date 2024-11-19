@@ -9,10 +9,10 @@ import java.time.LocalDate;
 public record FarmResponseDTO(
         Long id,
         String nom,
-        @NotNull(message = "La localisation ne peut pas être nulle")
+//        @NotNull(message = "La localisation ne peut pas être nulle")
         String localisation,
-        Superficie superficie,
-        @Past(message = "La date de création doit être dans le passé")
+        Double superficie,
+//        @Past(message = "La date de création doit être dans le passé")
         LocalDate dateCreation
 ) {
 }

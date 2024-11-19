@@ -2,6 +2,7 @@ package org.wora.citronnix.farm.domain.entity;
 
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,14 +25,16 @@ public class Farm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+//    @NotBlank
     private String nom;
 
     @NotBlank
+    @Column(nullable = false)
     private String localisation;
 
-    @Embedded
-    private Superficie superficie;
+    @NotNull
+//    @Min(value = 0, message = "La superficie doit être positive")
+    private Double superficie;
 
     @NotNull
     private LocalDate dateCreation;
@@ -39,4 +42,12 @@ public class Farm {
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
     @Size(max = 10)
     private Set<Field> fields = new HashSet<>();
+
+    public LocalDate getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDate dateCreation) {
+        this.dateCreation = dateCreation;
+    }
 }

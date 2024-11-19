@@ -1,21 +1,27 @@
 package org.wora.citronnix.infrastructure.web;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wora.citronnix.farm.application.dto.request.FarmRequestDTO;
 import org.wora.citronnix.farm.application.dto.response.FarmResponseDTO;
+import org.wora.citronnix.farm.application.sevice.FarmService;
 import org.wora.citronnix.farm.application.sevice.impl.FarmServiceImpl;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/farms")
-@RequiredArgsConstructor
 public class FarmController {
     private final FarmServiceImpl farmService;
+    @Autowired
+    public FarmController(FarmServiceImpl farmService) {
+        this.farmService = farmService;
+    }
 
     @GetMapping
     public ResponseEntity<List<FarmResponseDTO>> findFarms() {

@@ -1,10 +1,12 @@
 package org.wora.citronnix.farm.domain.valueObject;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(force = true)
+@Getter
 public class Superficie {
     private final Double valeurEnHectares;
     private final Double superficieTotaleFerme;
