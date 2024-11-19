@@ -10,6 +10,8 @@ import org.wora.citronnix.farm.application.dto.response.FieldResponseDTO;
 import org.wora.citronnix.farm.application.sevice.FieldService;
 import org.wora.citronnix.farm.application.sevice.impl.FieldServiceImpl;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/fields")
 @RequiredArgsConstructor
@@ -35,5 +37,15 @@ public class FieldController {
 
         FieldResponseDTO updatedField = fieldServiceImpl.update(fieldId, fieldRequestDTO);
         return ResponseEntity.ok(updatedField);
+    }
+    @GetMapping
+    public ResponseEntity<List<FieldResponseDTO>> findAllFields() {
+        List<FieldResponseDTO> fields = fieldServiceImpl.findAll();
+        return ResponseEntity.ok(fields);
+    }
+    @GetMapping("/{fieldId}")
+    public ResponseEntity<FieldResponseDTO> findFieldById(@PathVariable Long fieldId) {
+        FieldResponseDTO fieldResponseDTO = fieldServiceImpl.findById(fieldId);
+        return ResponseEntity.ok(fieldResponseDTO);
     }
 }

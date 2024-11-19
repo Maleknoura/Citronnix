@@ -16,6 +16,7 @@ import org.wora.citronnix.farm.domain.repository.FieldRepository;
 import org.wora.citronnix.farm.domain.valueObject.FieldSpecification;
 
 import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class FieldServiceImpl implements FieldService {
@@ -24,10 +25,14 @@ public class FieldServiceImpl implements FieldService {
 
     private final FieldMapper fieldMapper;
     private final FarmMapper farmMapper;
+
     @Override
-    public FieldResponseDTO findById(Long aLong) {
-        return null;
+    public FieldResponseDTO findById(Long fieldId) {
+        Field field = fieldRepository.findById(fieldId)
+                .orElseThrow(() -> new EntityNotFoundException("Champ non trouvé avec l'ID : " + fieldId));
+        return fieldMapper.toResponseDTO(field);
     }
+
     @Transactional
     @Override
     public FieldResponseDTO save(FieldRequestDTO fieldRequestDTO) {
@@ -43,16 +48,19 @@ public class FieldServiceImpl implements FieldService {
             field.setId(null);
         }
 
-        new FieldSpecification(field.getSuperficie(), farm,fieldRepository);
+        new FieldSpecification(field.getSuperficie(), farm, fieldRepository);
 
         Field savedField = fieldRepository.save(field);
         return fieldMapper.toResponseDTO(savedField);
     }
-        @Override
-    public List<FieldResponseDTO> findAll() {
-        return List.of();
-    }
 
+    @Override
+    public List<FieldResponseDTO> findAll() {
+        List<Field> fields = fieldRepository.findAll();
+        return fields.stream()
+                .map(fieldMapper::toResponseDTO)
+                .toList();
+    }
 
 
     @Override
