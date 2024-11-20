@@ -1,28 +1,36 @@
 package org.wora.citronnix.harvest.domain.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.wora.citronnix.farm.domain.entity.Field;
+import org.wora.citronnix.harvest.domain.embeddable.HarvestDetailId;
 import org.wora.citronnix.tree.domain.entity.Tree;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DetailHarvest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private HarvestDetailId id;
 
-    @ManyToOne
-    @JoinColumn(name = "harvest_id", nullable = false)
+    @MapsId("harvestId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "harvest_id", nullable = false, insertable = false, updatable = false)
     private Harvest harvest;
 
-    @ManyToOne
-    @JoinColumn(name = "tree_id", nullable = false)
+    @MapsId("treeId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tree_id", nullable = false, insertable = false, updatable = false)
     private Tree tree;
-
-    @ManyToOne
-    @JoinColumn(name = "field_id", nullable = false)
-    private Field field;
 
     @Positive
     private Double quantite;
 }
+

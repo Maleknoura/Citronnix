@@ -28,7 +28,6 @@ public class Field {
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
     private Set<Tree> Trees = new HashSet<>();
 
-    @OneToMany(mappedBy = "field")
-    private Set<DetailHarvest> harvest = new HashSet<>();
+
 }
 

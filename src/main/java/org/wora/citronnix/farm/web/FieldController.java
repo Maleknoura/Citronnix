@@ -1,4 +1,4 @@
-package org.wora.citronnix.infrastructure.web;
+package org.wora.citronnix.farm.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
