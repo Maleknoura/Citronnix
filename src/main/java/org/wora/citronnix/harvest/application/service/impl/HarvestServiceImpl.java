@@ -56,8 +56,11 @@ public class HarvestServiceImpl implements HarvestService {
 
 
     @Override
-    public void deleteById(Long aLong) {
-
+    public void deleteById(Long id) {
+        if (!harvestRepository.existsById(id)) {
+            throw new EntityNotFoundException("Harvest not found for id: " + id);
+        }
+        harvestRepository.deleteById(id);
     }
 
     @Override

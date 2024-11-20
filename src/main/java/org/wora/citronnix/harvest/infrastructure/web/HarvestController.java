@@ -39,4 +39,9 @@ public class HarvestController {
         List<HarvestResponseDTO> harvests = harvestService.findAll();
         return ResponseEntity.ok(harvests);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteHarvest(@PathVariable Long id) {
+        harvestService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
