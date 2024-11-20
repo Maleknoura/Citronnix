@@ -8,7 +8,13 @@ import org.wora.citronnix.harvest.domain.entity.DetailHarvest;
 
 @Mapper(componentModel = "spring")
 public interface DetailHarvestMapper {
+    @Mapping(target = "harvest.id", source = "harvestId")
+    @Mapping(target = "tree.id", source = "treeId")
+    @Mapping(target = "quantite", source = "quantite")
+    DetailHarvest toDetailHarvest(DetailHarvestRequestDTO requestDTO);
+
+    @Mapping(target = "harvestId", source = "harvest.id")
     @Mapping(target = "treeId", source = "tree.id")
     @Mapping(target = "quantite", source = "quantite")
-    DetailHarvestResponseDTO toDto(DetailHarvest detailHarvest);
+    DetailHarvestResponseDTO toDetailHarvestResponseDTO(DetailHarvest detailHarvest);
 }

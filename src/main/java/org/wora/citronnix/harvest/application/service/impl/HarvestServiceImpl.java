@@ -9,14 +9,12 @@ import org.wora.citronnix.farm.domain.repository.FieldRepository;
 import org.wora.citronnix.harvest.application.dto.request.HarvestRequestDTO;
 import org.wora.citronnix.harvest.application.dto.response.HarvestResponseDTO;
 import org.wora.citronnix.harvest.application.mapper.HarvestMapper;
+import org.wora.citronnix.harvest.application.service.HarvestService;
 import org.wora.citronnix.harvest.domain.entity.Harvest;
 import org.wora.citronnix.harvest.domain.repository.HarvestRepository;
-import org.wora.citronnix.harvest.domain.valueObject.HarvestDetails;
-import org.wora.citronnix.tree.domain.entity.Tree;
 import org.wora.citronnix.tree.domain.repository.TreeRepository;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

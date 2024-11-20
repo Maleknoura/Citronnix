@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wora.citronnix.harvest.application.dto.request.HarvestRequestDTO;
 import org.wora.citronnix.harvest.application.dto.response.HarvestResponseDTO;
-import org.wora.citronnix.harvest.application.service.impl.HarvestService;
+import org.wora.citronnix.harvest.application.service.HarvestService;
 
 import java.util.List;
 
