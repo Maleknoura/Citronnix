@@ -37,6 +37,15 @@ public class TreeController {
         List<TreeResponseDTO> response = treeService.findAll();
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<TreeResponseDTO> getTreeById(@PathVariable Long id) {
+        try {
+            TreeResponseDTO response = treeService.findById(id);
+            return ResponseEntity.ok(response);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 
 
 }
