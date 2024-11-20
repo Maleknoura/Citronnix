@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public record TreeRequestDTO(
         Long fieldId,
-        LocalDate datePlantation
+        LocalDate plantationPeriod
 ) {
+
 }

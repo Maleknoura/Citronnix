@@ -1,0 +1,33 @@
+package org.wora.citronnix.harvest.infrastructure.web;
+
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.wora.citronnix.harvest.application.dto.request.HarvestRequestDTO;
+import org.wora.citronnix.harvest.application.dto.response.HarvestResponseDTO;
+import org.wora.citronnix.harvest.application.service.impl.HarvestService;
+
+@RestController
+@RequestMapping("/api/harvests")
+public class HarvestController {
+
+    private final HarvestService harvestService;
+
+    @Autowired
+    public HarvestController(HarvestService harvestService) {
+        this.harvestService = harvestService;
+    }
+
+    @PostMapping
+    public ResponseEntity<HarvestResponseDTO> createHarvest(
+            @Valid @RequestBody HarvestRequestDTO requestDTO
+    ) {
+        HarvestResponseDTO savedHarvest = harvestService.save(requestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedHarvest);
+    }
+}
