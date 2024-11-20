@@ -40,4 +40,9 @@ public class SaleController {
         saleService.deleteById(id);
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public SaleResponseDTO updateSale(@PathVariable Long id, @Valid @RequestBody SaleRequestDTO requestDTO) {
+        return saleService.update(id, requestDTO);
+    }
 }
