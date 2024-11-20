@@ -22,5 +22,11 @@ public class SaleController {
         return saleService.findById(id);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<SaleResponseDTO> getAllSales() {
+        return saleService.findAll();
+    }
+
 
 }
