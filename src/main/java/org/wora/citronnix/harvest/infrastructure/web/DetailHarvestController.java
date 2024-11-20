@@ -9,6 +9,8 @@ import org.wora.citronnix.harvest.application.dto.request.DetailHarvestRequestDT
 import org.wora.citronnix.harvest.application.dto.response.DetailHarvestResponseDTO;
 import org.wora.citronnix.harvest.application.service.DetailHarvestService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/detail-harvests")
 @RequiredArgsConstructor
@@ -21,6 +23,12 @@ public class DetailHarvestController {
     public ResponseEntity<DetailHarvestResponseDTO> saveDetailHarvest(@RequestBody DetailHarvestRequestDTO requestDTO) {
         DetailHarvestResponseDTO responseDTO = detailHarvestService.save(requestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<DetailHarvestResponseDTO> getAllDetailHarvests() {
+        return detailHarvestService.findAll();
     }
 }
 

@@ -19,6 +19,7 @@ import org.wora.citronnix.tree.domain.repository.TreeRepository;
 import org.wora.citronnix.harvest.application.mapper.DetailHarvestMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +38,13 @@ public class DetailHarvestServiceImpl implements DetailHarvestService {
 
     @Override
     public List<DetailHarvestResponseDTO> findAll() {
-        return List.of();
+        List<DetailHarvest> detailHarvestList = detailHarvestRepository.findAll();
+
+        return detailHarvestList.stream()
+                .map(detailHarvestMapper::toDetailHarvestResponseDTO)
+                .collect(Collectors.toList());
     }
+
 
     @Override
     @Transactional
