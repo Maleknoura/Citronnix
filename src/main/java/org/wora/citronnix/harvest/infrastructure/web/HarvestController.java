@@ -9,6 +9,8 @@ import org.wora.citronnix.harvest.application.dto.request.HarvestRequestDTO;
 import org.wora.citronnix.harvest.application.dto.response.HarvestResponseDTO;
 import org.wora.citronnix.harvest.application.service.impl.HarvestService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/harvests")
 public class HarvestController {
@@ -31,5 +33,10 @@ public class HarvestController {
     public ResponseEntity<HarvestResponseDTO> getHarvestById(@PathVariable Long id) {
         HarvestResponseDTO harvest = harvestService.findById(id);
         return ResponseEntity.ok(harvest);
+    }
+    @GetMapping
+    public ResponseEntity<List<HarvestResponseDTO>> getAllHarvests() {
+        List<HarvestResponseDTO> harvests = harvestService.findAll();
+        return ResponseEntity.ok(harvests);
     }
 }

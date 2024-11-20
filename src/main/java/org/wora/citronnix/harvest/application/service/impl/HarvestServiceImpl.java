@@ -38,7 +38,11 @@ public class HarvestServiceImpl implements HarvestService {
 
     @Override
     public List<HarvestResponseDTO> findAll() {
-        return List.of();
+        List<Harvest> harvests = harvestRepository.findAll();
+
+        return harvests.stream()
+                .map(harvestMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public HarvestResponseDTO save(HarvestRequestDTO requestDTO) {
