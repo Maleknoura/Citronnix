@@ -9,6 +9,5 @@ public record HarvestRequestDTO (
     Long fieldId,
     LocalDate dateRecolte,
     Season saison,
-    Double quantiteTotale,
-    Set<DetailHarvestRequestDTO> details
-){}
+    Double quantiteTotale
+    ){}

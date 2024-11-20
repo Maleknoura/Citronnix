@@ -32,5 +32,7 @@ public class DetailHarvest {
 
     @Positive
     private Double quantite;
+
+
 }
 

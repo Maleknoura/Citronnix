@@ -16,17 +16,17 @@ import org.wora.citronnix.tree.domain.valueObject.TreeProductivity;
         imports = {PeriodePlantation.class, TreeProductivity.class}
 )
 public interface TreeMapper {
-    @Mapping(source = "datePlantation.date", target = "datePlantation")
+    @Mapping(source = "plantationPeriod.date", target = "plantationPeriod")
     @Mapping(source = "field.id", target = "fieldId")
     @Mapping(source = "productivity.categorieAge", target = "categorieAge")
     @Mapping(source = "productivity.quantiteParSaison", target = "quantiteParSaison")
     @Mapping(target = "age", expression = "java(tree.getAge())")
     TreeResponseDTO toResponseDTO(Tree tree);
 
-    @Mapping(target = "datePlantation", expression = "java(new PeriodePlantation(requestDTO.datePlantation()))")
+    @Mapping(target = "plantationPeriod", expression = "java(new PeriodePlantation(requestDTO.plantationPeriod()))")
     @Mapping(
             target = "productivity",
-            expression = "java(TreeProductivity.calculerProductivite(new PeriodePlantation(requestDTO.datePlantation()).getAge()))"
+            expression = "java(TreeProductivity.calculerProductivite(new PeriodePlantation(requestDTO.plantationPeriod()).getAge()))"
     )
     Tree toEntity(TreeRequestDTO requestDTO);
 }

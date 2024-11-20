@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
-import org.wora.citronnix.farm.domain.entity.Field;
 import org.wora.citronnix.harvest.domain.enums.Season;
 import org.wora.citronnix.sale.domain.entity.Sale;
 
@@ -35,4 +34,8 @@ public class Harvest {
 
     @OneToMany(mappedBy = "harvest", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Sale> sales = new HashSet<>();
+
+    public Season getSeason() {
+        return saison;
+    }
 }

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record TreeResponseDTO(
         Long id,
         Long fieldId,
-        LocalDate datePlantation,
+        LocalDate plantationPeriod,
         int age,
         String categorieAge,
         Double quantiteParSaison

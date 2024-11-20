@@ -45,7 +45,7 @@ public class TreeServiceImpl implements TreeService {
         Field field = fieldRepository.findById(treeRequestDTO.fieldId())
                 .orElseThrow(() -> new EntityNotFoundException("Champ non trouvé"));
 
-        PeriodePlantation periodePlantation = new PeriodePlantation(treeRequestDTO.datePlantation());
+        PeriodePlantation periodePlantation = new PeriodePlantation(treeRequestDTO.plantationPeriod());
 
         TreeProductivity productivity = TreeProductivity.calculerProductivite(periodePlantation.getAge());
 
@@ -55,7 +55,7 @@ public class TreeServiceImpl implements TreeService {
 
         Tree tree = new Tree();
         tree.setField(field);
-        tree.setDatePlantation(periodePlantation);
+        tree.setPlantationPeriod(periodePlantation);
         tree.setProductivity(productivity);
 
         Tree savedTree = treeRepository.save(tree);
@@ -81,7 +81,7 @@ public class TreeServiceImpl implements TreeService {
         Field field = fieldRepository.findById(treeRequestDTO.fieldId())
                 .orElseThrow(() -> new EntityNotFoundException("Champ non trouvé"));
 
-        PeriodePlantation periodePlantation = new PeriodePlantation(treeRequestDTO.datePlantation());
+        PeriodePlantation periodePlantation = new PeriodePlantation(treeRequestDTO.plantationPeriod());
         TreeProductivity productivity = TreeProductivity.calculerProductivite(periodePlantation.getAge());
 
         if (field.getTrees().size() >= field.getSuperficie().getValeurEnHectares() * 100) {
@@ -89,7 +89,7 @@ public class TreeServiceImpl implements TreeService {
         }
 
         tree.setField(field);
-        tree.setDatePlantation(periodePlantation);
+        tree.setPlantationPeriod(periodePlantation);
         tree.setProductivity(productivity);
 
         Tree updatedTree = treeRepository.save(tree);
