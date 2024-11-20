@@ -31,11 +31,23 @@ public class DetailHarvestController {
     public List<DetailHarvestResponseDTO> getAllDetailHarvests() {
         return detailHarvestService.findAll();
     }
+
     @GetMapping("/{harvestId}/{treeId}")
     @ResponseStatus(HttpStatus.OK)
     public DetailHarvestResponseDTO getDetailHarvestById(@PathVariable Long harvestId, @PathVariable Long treeId) {
         HarvestDetailId id = new HarvestDetailId(harvestId, treeId);
         return detailHarvestService.findById(id);
     }
+
+    @DeleteMapping("/{harvestId}/{treeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(
+            @PathVariable Long harvestId,
+            @PathVariable Long treeId) {
+        HarvestDetailId id = new HarvestDetailId(harvestId, treeId);
+        detailHarvestService.deleteById(id);
+    }
+
+
 }
 

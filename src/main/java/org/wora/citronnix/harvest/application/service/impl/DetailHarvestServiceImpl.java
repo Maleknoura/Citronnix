@@ -68,9 +68,14 @@ public class DetailHarvestServiceImpl implements DetailHarvestService {
     }
 
     @Override
+    @Transactional
     public void deleteById(HarvestDetailId harvestDetailId) {
+        DetailHarvest detailHarvest = detailHarvestRepository.findById(harvestDetailId)
+                .orElseThrow(() -> new EntityNotFoundException("Detail Harvest not found"));
 
+        detailHarvestRepository.delete(detailHarvest);
     }
+
 
     @Override
     public DetailHarvestResponseDTO update(HarvestDetailId harvestDetailId, DetailHarvestRequestDTO detailHarvestRequestDTO) {
