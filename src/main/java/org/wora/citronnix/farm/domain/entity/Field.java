@@ -4,11 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.wora.citronnix.farm.domain.valueObject.Superficie;
-import org.wora.citronnix.harvest.domain.entity.DetailHarvest;
 import org.wora.citronnix.tree.domain.entity.Tree;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,8 +24,9 @@ public class Field {
     @Embedded
     private Superficie superficie;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
-    private Set<Tree> Trees = new HashSet<>();
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Tree> trees = new ArrayList<>();
+
 
 
 }

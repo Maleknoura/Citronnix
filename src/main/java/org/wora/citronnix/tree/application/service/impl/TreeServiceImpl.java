@@ -25,14 +25,19 @@ public class TreeServiceImpl implements TreeService {
     private final TreeMapper treeMapper;
 
     @Override
-    public TreeResponseDTO findById(Long aLong) {
-        return null;
+    public TreeResponseDTO findById(Long id) {
+        Tree tree = treeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Arbre non trouvé"));
+        return treeMapper.toResponseDTO(tree);
     }
 
     @Override
     public List<TreeResponseDTO> findAll() {
-        return List.of();
+        return treeRepository.findAll().stream()
+                .map(treeMapper::toResponseDTO)
+                .toList();
     }
+
 
     @Override
     @Transactional
