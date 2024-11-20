@@ -27,7 +27,7 @@ public class TreeController {
             TreeResponseDTO response = treeService.save(treeRequestDto);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.out.println("Error while creating tree: "+ e);
+            System.out.println("Error while creating tree: " + e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
         }
     }
@@ -37,6 +37,7 @@ public class TreeController {
         List<TreeResponseDTO> response = treeService.findAll();
         return ResponseEntity.ok(response);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<TreeResponseDTO> getTreeById(@PathVariable Long id) {
         try {
@@ -47,6 +48,16 @@ public class TreeController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void>delete(@PathVariable long id){
+        treeService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TreeResponseDTO> updateTree(@PathVariable Long id, @RequestBody TreeRequestDTO treeRequestDto) {
+        TreeResponseDTO response = treeService.update(id, treeRequestDto);
+        return ResponseEntity.ok(response);
+    }
 
 }
-

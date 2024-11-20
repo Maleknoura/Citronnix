@@ -65,12 +65,36 @@ public class TreeServiceImpl implements TreeService {
 
 
     @Override
-    public void deleteById(Long aLong) {
-
+    public void deleteById(Long id) {
+        if (treeRepository.existsById(id)) {
+            treeRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Champ non trouvé avec l'id : " + id);
+        }
     }
-
     @Override
-    public TreeResponseDTO update(Long aLong, TreeRequestDTO treeRequestDTO) {
-        return null;
+    @Transactional
+    public TreeResponseDTO update(Long id, TreeRequestDTO treeRequestDTO) {
+        Tree tree = treeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Arbre non trouvé"));
+
+        Field field = fieldRepository.findById(treeRequestDTO.fieldId())
+                .orElseThrow(() -> new EntityNotFoundException("Champ non trouvé"));
+
+        PeriodePlantation periodePlantation = new PeriodePlantation(treeRequestDTO.datePlantation());
+        TreeProductivity productivity = TreeProductivity.calculerProductivite(periodePlantation.getAge());
+
+        if (field.getTrees().size() >= field.getSuperficie().getValeurEnHectares() * 100) {
+            throw new IllegalStateException("La densité d'arbres dépasse 100 arbres par hectare");
+        }
+
+        tree.setField(field);
+        tree.setDatePlantation(periodePlantation);
+        tree.setProductivity(productivity);
+
+        Tree updatedTree = treeRepository.save(tree);
+
+        return treeMapper.toResponseDTO(updatedTree);
     }
+
 }
