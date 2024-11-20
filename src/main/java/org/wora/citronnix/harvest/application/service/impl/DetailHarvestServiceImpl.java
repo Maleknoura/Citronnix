@@ -3,7 +3,6 @@ package org.wora.citronnix.harvest.application.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wora.citronnix.harvest.application.dto.request.DetailHarvestRequestDTO;
@@ -33,8 +32,12 @@ public class DetailHarvestServiceImpl implements DetailHarvestService {
 
     @Override
     public DetailHarvestResponseDTO findById(HarvestDetailId harvestDetailId) {
-        return null;
+        DetailHarvest detailHarvest = detailHarvestRepository.findById(harvestDetailId)
+                .orElseThrow(() -> new EntityNotFoundException("Detail Harvest not found"));
+
+        return detailHarvestMapper.toDetailHarvestResponseDTO(detailHarvest);
     }
+
 
     @Override
     public List<DetailHarvestResponseDTO> findAll() {

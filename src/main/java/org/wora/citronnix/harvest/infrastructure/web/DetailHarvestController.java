@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.wora.citronnix.harvest.application.dto.request.DetailHarvestRequestDTO;
 import org.wora.citronnix.harvest.application.dto.response.DetailHarvestResponseDTO;
 import org.wora.citronnix.harvest.application.service.DetailHarvestService;
+import org.wora.citronnix.harvest.domain.embeddable.HarvestDetailId;
 
 import java.util.List;
 
@@ -29,6 +30,12 @@ public class DetailHarvestController {
     @ResponseStatus(HttpStatus.OK)
     public List<DetailHarvestResponseDTO> getAllDetailHarvests() {
         return detailHarvestService.findAll();
+    }
+    @GetMapping("/{harvestId}/{treeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public DetailHarvestResponseDTO getDetailHarvestById(@PathVariable Long harvestId, @PathVariable Long treeId) {
+        HarvestDetailId id = new HarvestDetailId(harvestId, treeId);
+        return detailHarvestService.findById(id);
     }
 }
 
