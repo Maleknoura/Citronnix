@@ -28,5 +28,16 @@ public class SaleController {
         return saleService.findAll();
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public SaleResponseDTO createSale(@Valid @RequestBody SaleRequestDTO requestDTO) {
+        return saleService.save(requestDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSale(@PathVariable Long id) {
+        saleService.deleteById(id);
+    }
 
 }
