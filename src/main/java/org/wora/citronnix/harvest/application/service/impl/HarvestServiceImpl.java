@@ -29,8 +29,11 @@ public class HarvestServiceImpl implements HarvestService {
     private final HarvestMapper harvestMapper;
 
     @Override
-    public HarvestResponseDTO findById(Long aLong) {
-        return null;
+    public HarvestResponseDTO findById(Long id) {
+        Harvest harvest = harvestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Harvest not found for id: " + id));
+
+        return harvestMapper.toDto(harvest);
     }
 
     @Override
