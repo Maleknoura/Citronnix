@@ -44,4 +44,11 @@ public class HarvestController {
         harvestService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<HarvestResponseDTO> updateHarvest(
+            @PathVariable Long id,
+            @RequestBody HarvestRequestDTO requestDTO) {
+        HarvestResponseDTO updatedHarvest = harvestService.update(id, requestDTO);
+        return ResponseEntity.ok(updatedHarvest);
+    }
 }

@@ -2,6 +2,7 @@ package org.wora.citronnix.harvest.application.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.wora.citronnix.harvest.application.dto.request.HarvestRequestDTO;
 import org.wora.citronnix.harvest.application.dto.response.HarvestResponseDTO;
 import org.wora.citronnix.harvest.domain.entity.Harvest;
@@ -17,4 +18,7 @@ public interface HarvestMapper {
     @Mapping(target = "sales", ignore = true)
     @Mapping(target = "detailsHarvest", ignore = true)
     Harvest toEntity(HarvestRequestDTO dto);
+
+    void updateEntityFromDto(HarvestRequestDTO dto, @MappingTarget Harvest entity);
+
 }
