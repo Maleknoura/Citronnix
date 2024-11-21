@@ -38,4 +38,12 @@ public class Harvest {
     public Season getSeason() {
         return saison;
     }
+    @PrePersist
+    @PreUpdate
+    public void updateTotalQuantity() {
+        this.quantiteTotale = this.detailsHarvest.stream()
+                .mapToDouble(DetailHarvest::getQuantite)
+                .sum();
+    }
+
 }

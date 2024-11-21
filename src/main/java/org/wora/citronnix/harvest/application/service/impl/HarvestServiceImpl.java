@@ -48,6 +48,7 @@ public class HarvestServiceImpl implements HarvestService {
         Field field = fieldRepository.findById(requestDTO.fieldId())
                 .orElseThrow(() -> new EntityNotFoundException("Field not found"));
         Harvest harvest = harvestMapper.toEntity(requestDTO);
+        harvest.updateTotalQuantity();
         Harvest savedHarvest = harvestRepository.save(harvest);
         return harvestMapper.toDto(savedHarvest);
     }

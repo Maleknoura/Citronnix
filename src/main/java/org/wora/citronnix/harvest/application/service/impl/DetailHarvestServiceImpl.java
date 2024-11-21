@@ -62,6 +62,7 @@ public class DetailHarvestServiceImpl implements DetailHarvestService {
         HarvestDetailId id = new HarvestDetailId(harvest.getId(), tree.getId());
         detailHarvest.setId(id);
 
+        harvest.updateTotalQuantity();
         DetailHarvest savedDetailHarvest = detailHarvestRepository.save(detailHarvest);
 
         return detailHarvestMapper.toDetailHarvestResponseDTO(savedDetailHarvest);
