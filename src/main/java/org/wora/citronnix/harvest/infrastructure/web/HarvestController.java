@@ -29,21 +29,25 @@ public class HarvestController {
         HarvestResponseDTO savedHarvest = harvestService.save(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedHarvest);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<HarvestResponseDTO> getHarvestById(@PathVariable Long id) {
         HarvestResponseDTO harvest = harvestService.findById(id);
         return ResponseEntity.ok(harvest);
     }
+
     @GetMapping
     public ResponseEntity<List<HarvestResponseDTO>> getAllHarvests() {
         List<HarvestResponseDTO> harvests = harvestService.findAll();
         return ResponseEntity.ok(harvests);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHarvest(@PathVariable Long id) {
         harvestService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<HarvestResponseDTO> updateHarvest(
             @PathVariable Long id,

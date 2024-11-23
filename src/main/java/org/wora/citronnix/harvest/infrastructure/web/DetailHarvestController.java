@@ -1,6 +1,7 @@
 package org.wora.citronnix.harvest.infrastructure.web;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,18 @@ public class DetailHarvestController {
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{harvestId}/{treeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public DetailHarvestResponseDTO updateDetailHarvest(
+            @PathVariable Long harvestId,
+            @PathVariable Long treeId,
+            @RequestBody DetailHarvestRequestDTO detailHarvestRequestDTO) {
+
+        HarvestDetailId harvestDetailId = new HarvestDetailId(harvestId, treeId);
+
+        return detailHarvestService.update(harvestDetailId, detailHarvestRequestDTO);
+    }
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<DetailHarvestResponseDTO> getAllDetailHarvests() {
@@ -41,11 +54,9 @@ public class DetailHarvestController {
 
     @DeleteMapping("/{harvestId}/{treeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(
-            @PathVariable Long harvestId,
-            @PathVariable Long treeId) {
-        HarvestDetailId id = new HarvestDetailId(harvestId, treeId);
-        detailHarvestService.deleteById(id);
+    public void deleteById(@PathVariable Long harvestId, @PathVariable Long treeId) {
+        HarvestDetailId harvestDetailId = new HarvestDetailId(harvestId, treeId);
+        detailHarvestService.deleteById(harvestDetailId);
     }
 
 

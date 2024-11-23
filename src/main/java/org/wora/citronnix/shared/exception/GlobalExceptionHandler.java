@@ -1,13 +1,18 @@
 package org.wora.citronnix.shared.exception;
 
 import jakarta.persistence.EntityExistsException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -36,6 +41,18 @@ public class GlobalExceptionHandler {
         return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Une erreur inattendue s'est produite", request);
     }
 
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleMethodArgumentNotValidException(org.springframework.web.bind.MethodArgumentNotValidException ex) {
+        Map<String, String> errorDetails = new HashMap<>();
+        BindingResult result = ex.getBindingResult();
+
+        for (FieldError fieldError : result.getFieldErrors()) {
+            errorDetails.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+
+        return errorDetails;
+    }
     private ErrorResponse createErrorResponse(HttpStatus status, String message, WebRequest request) {
         return new ErrorResponse(
                 status.value(),

@@ -62,8 +62,11 @@ public class DetailHarvestServiceImpl implements DetailHarvestService {
         HarvestDetailId id = new HarvestDetailId(harvest.getId(), tree.getId());
         detailHarvest.setId(id);
 
-        harvest.updateTotalQuantity();
+
         DetailHarvest savedDetailHarvest = detailHarvestRepository.save(detailHarvest);
+
+        harvest.updateTotalQuantity();
+        harvestRepository.save(harvest);
 
         return detailHarvestMapper.toDetailHarvestResponseDTO(savedDetailHarvest);
     }
@@ -71,16 +74,45 @@ public class DetailHarvestServiceImpl implements DetailHarvestService {
     @Override
     @Transactional
     public void deleteById(HarvestDetailId harvestDetailId) {
+        System.out.println("Attempting to delete DetailHarvest with ID: " + harvestDetailId);
+
         DetailHarvest detailHarvest = detailHarvestRepository.findById(harvestDetailId)
-                .orElseThrow(() -> new EntityNotFoundException("Detail Harvest not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Detail Harvest not found with ID: " + harvestDetailId));
+
+        Long harvestId = harvestDetailId.getHarvestId();
+
+        Harvest harvest = harvestRepository.findById(harvestId)
+                .orElseThrow(() -> new EntityNotFoundException("Harvest not found with ID: " + harvestId));
+
+        harvest.getDetailsHarvest().remove(detailHarvest);
 
         detailHarvestRepository.delete(detailHarvest);
+
+        harvest.updateTotalQuantity();
+        harvestRepository.save(harvest);
     }
 
 
     @Override
+    @Transactional
     public DetailHarvestResponseDTO update(HarvestDetailId harvestDetailId, DetailHarvestRequestDTO detailHarvestRequestDTO) {
-        return null;
+        DetailHarvest detailHarvest = detailHarvestRepository.findById(harvestDetailId)
+                .orElseThrow(() -> new EntityNotFoundException("Detail Harvest not found"));
+
+        Harvest harvest = harvestRepository.findById(detailHarvestRequestDTO.harvestId())
+                .orElseThrow(() -> new EntityNotFoundException("Harvest not found"));
+
+        Tree tree = treeRepository.findById(detailHarvestRequestDTO.treeId())
+                .orElseThrow(() -> new EntityNotFoundException("Tree not found"));
+
+        detailHarvest.setQuantite(detailHarvestRequestDTO.quantite());
+
+        DetailHarvest updatedDetailHarvest = detailHarvestRepository.save(detailHarvest);
+
+        harvest.updateTotalQuantity();
+        harvestRepository.save(harvest);
+
+        return detailHarvestMapper.toDetailHarvestResponseDTO(updatedDetailHarvest);
     }
 
 

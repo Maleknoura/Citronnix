@@ -3,10 +3,7 @@ package org.wora.citronnix.harvest.domain.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.wora.citronnix.farm.domain.entity.Field;
 import org.wora.citronnix.harvest.domain.embeddable.HarvestDetailId;
 import org.wora.citronnix.tree.domain.entity.Tree;
@@ -16,21 +13,26 @@ import org.wora.citronnix.tree.domain.entity.Tree;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
+
+@Table(name = "detail_harvest")
 public class DetailHarvest {
     @EmbeddedId
     private HarvestDetailId id;
 
-    @MapsId("harvestId")
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "harvest_id", nullable = false, insertable = false, updatable = false)
+    @MapsId("harvestId")
+    @JoinColumn(name = "harvest_id")
     private Harvest harvest;
 
-    @MapsId("treeId")
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tree_id", nullable = false, insertable = false, updatable = false)
+    @MapsId("treeId")
+    @JoinColumn(name = "tree_id")
     private Tree tree;
 
-    @Positive
+    @Column(nullable = false)
     private Double quantite;
 
 
