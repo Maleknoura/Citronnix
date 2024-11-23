@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public record HarvestRequestDTO (
-    Long fieldId,
     LocalDate dateRecolte,
     Season saison
     ){}

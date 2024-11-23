@@ -64,7 +64,6 @@ public class TreeServiceImpl implements TreeService {
     }
 
 
-
     @Override
     public void deleteById(Long id) {
         if (treeRepository.existsById(id)) {

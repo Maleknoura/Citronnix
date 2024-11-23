@@ -2,10 +2,9 @@ package org.wora.citronnix.farm.application.sevice.impl;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.wora.citronnix.farm.application.Mapper.FarmMapper;
@@ -17,7 +16,6 @@ import org.wora.citronnix.farm.domain.entity.Farm;
 import org.wora.citronnix.farm.domain.repository.FarmRepository;
 import org.wora.citronnix.farm.domain.repository.FarmSpecifications;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,13 +44,6 @@ public class FarmServiceImpl implements FarmService {
         }
     }
 
-    public List<FarmResponseDTO> searchFarms(FarmSearchCriteria criteria) {
-        List<Farm> farms = farmRepository.findAll(FarmSpecifications.search(criteria));
-
-        return farms.stream()
-                .map(farmMapper::toDto)
-                .collect(Collectors.toList());
-    }
 
 
     @Override
@@ -104,7 +95,8 @@ public class FarmServiceImpl implements FarmService {
 
 
     @Override
-    public List<Farm> searchFarms(String nom, String localisation, Double minSuperficie, Double maxSuperficie, LocalDate startDate, LocalDate endDate) {
-        return List.of();
+    public Page<FarmResponseDTO> searchFarms(FarmSearchCriteria criteria, Pageable pageable) {
+        Page<Farm> farmPage = farmRepository.findAll(FarmSpecifications.search(criteria), (Pageable) pageable);
+        return farmPage.map(farmMapper::toDto);
     }
 }

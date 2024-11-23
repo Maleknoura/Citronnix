@@ -45,8 +45,6 @@ public class HarvestServiceImpl implements HarvestService {
 
     public HarvestResponseDTO save(HarvestRequestDTO requestDTO) {
 
-        Field field = fieldRepository.findById(requestDTO.fieldId())
-                .orElseThrow(() -> new EntityNotFoundException("Field not found"));
         Harvest harvest = harvestMapper.toEntity(requestDTO);
         harvest.updateTotalQuantity();
         Harvest savedHarvest = harvestRepository.save(harvest);
@@ -61,13 +59,11 @@ public class HarvestServiceImpl implements HarvestService {
         }
         harvestRepository.deleteById(id);
     }
+
     @Transactional
     public HarvestResponseDTO update(Long id, HarvestRequestDTO requestDTO) {
         Harvest existingHarvest = harvestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Harvest not found"));
-
-        Field field = fieldRepository.findById(requestDTO.fieldId())
-                .orElseThrow(() -> new EntityNotFoundException("Field not found"));
 
         Harvest updatedHarvest = harvestMapper.toEntity(requestDTO);
         updatedHarvest.setId(id);

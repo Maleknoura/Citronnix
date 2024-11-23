@@ -28,9 +28,10 @@ public class DensiteArbre {
             throw new IllegalArgumentException("La surface doit être supérieure à zéro");
         }
 
-        double densite = nombreArbres / surfaceEnHectares;
-        if (densite > 100) {
-            throw new IllegalArgumentException("La densité maximale est de 100 arbres par hectare");
+        double densiteMaximale = 100 * surfaceEnHectares;
+
+        if (nombreArbres > densiteMaximale) {
+            throw new IllegalArgumentException("La densité maximale est de " + densiteMaximale + " arbres");
         }
     }
 

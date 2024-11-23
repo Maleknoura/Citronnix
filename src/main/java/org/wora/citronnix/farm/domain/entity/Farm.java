@@ -6,9 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.wora.citronnix.farm.domain.valueObject.Superficie;
 
 
@@ -20,6 +18,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Farm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +42,8 @@ public class Farm {
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
     @Size(max = 10)
     private Set<Field> fields = new HashSet<>();
+
+
 
     public LocalDate getDateCreation() {
         return dateCreation;

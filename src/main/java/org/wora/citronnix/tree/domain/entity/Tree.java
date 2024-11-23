@@ -1,21 +1,22 @@
 package org.wora.citronnix.tree.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jdk.jshell.Snippet;
+import lombok.*;
 import org.wora.citronnix.farm.domain.entity.Field;
 import org.wora.citronnix.harvest.domain.entity.DetailHarvest;
 import org.wora.citronnix.harvest.domain.enums.Season;
 import org.wora.citronnix.tree.domain.valueObject.PeriodePlantation;
 import org.wora.citronnix.tree.domain.valueObject.TreeProductivity;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@Builder
 public class Tree {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,8 @@ public class Tree {
     public Tree() {
         this.harvestDetails = new HashSet<>();
     }
+
+
 
     @Transient
     public int getAge() {

@@ -5,7 +5,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.wora.citronnix.farm.application.dto.request.FarmRequestDTO;
-import org.wora.citronnix.farm.application.dto.request.FarmSearchCriteria;
 import org.wora.citronnix.farm.application.dto.response.FarmResponseDTO;
 import org.wora.citronnix.farm.domain.entity.Farm;
 

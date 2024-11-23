@@ -1,8 +1,7 @@
 package org.wora.citronnix.farm.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.wora.citronnix.farm.domain.valueObject.Superficie;
 import org.wora.citronnix.tree.domain.entity.Tree;
 
@@ -12,6 +11,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
