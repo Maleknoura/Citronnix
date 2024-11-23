@@ -212,4 +212,19 @@ class FarmServiceImplTest {
     }
 
 
+    @Test
+    @DisplayName("Should return all farms")
+    void shouldReturnAllFarms() {
+        List<Farm> farms = Arrays.asList(testFarm);
+        when(farmRepository.findAll()).thenReturn(farms);
+        when(farmMapper.toFarmResponseDto(any(Farm.class))).thenReturn(testFarmResponseDTO);
+
+        List<FarmResponseDTO> results = farmService.findAll();
+
+        assertNotNull(results);
+        assertFalse(results.isEmpty());
+        assertEquals(1, results.size());
+        verify(farmRepository).findAll();
+    }
+
 }
