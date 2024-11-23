@@ -102,5 +102,32 @@ class FarmServiceImplTest {
             verify(farmRepository).findById(1L);
         }
     }
+    @Nested
+    @DisplayName("Save Farm Tests")
+    class SaveFarmTests {
 
+        @Test
+        @DisplayName("Should save farm successfully")
+        void shouldSaveFarmSuccessfully() {
+            when(farmRepository.existsByNom(anyString())).thenReturn(false);
+            when(farmMapper.toFarm(testFarmRequestDTO)).thenReturn(testFarm);
+            when(farmRepository.save(any(Farm.class))).thenReturn(testFarm);
+            when(farmMapper.toFarmResponseDto(testFarm)).thenReturn(testFarmResponseDTO);
+
+            FarmResponseDTO result = farmService.save(testFarmRequestDTO);
+
+            assertNotNull(result);
+            assertEquals(testFarmResponseDTO.nom(), result.nom());
+            verify(farmRepository).save(any(Farm.class));
+        }
+
+        @Test
+        @DisplayName("Should throw EntityExistsException when farm name already exists")
+        void shouldThrowExceptionWhenFarmNameExists() {
+            when(farmRepository.existsByNom(anyString())).thenReturn(true);
+
+            assertThrows(EntityExistsException.class, () -> farmService.save(testFarmRequestDTO));
+            verify(farmRepository, never()).save(any(Farm.class));
+        }
+    }
 }
