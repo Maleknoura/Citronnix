@@ -187,5 +187,29 @@ class FarmServiceImplTest {
             verify(farmRepository, never()).save(any(Farm.class));
         }
     }
+    @Nested
+    @DisplayName("Delete Farm Tests")
+    class DeleteFarmTests {
+
+        @Test
+        @DisplayName("Should delete farm successfully")
+        void shouldDeleteFarmSuccessfully() {
+            when(farmRepository.existsById(1L)).thenReturn(true);
+            doNothing().when(farmRepository).deleteById(1L);
+
+            assertDoesNotThrow(() -> farmService.deleteById(1L));
+            verify(farmRepository).deleteById(1L);
+        }
+
+        @Test
+        @DisplayName("Should throw EntityNotFoundException when deleting non-existent farm")
+        void shouldThrowExceptionWhenDeletingNonExistentFarm() {
+            when(farmRepository.existsById(1L)).thenReturn(false);
+
+            assertThrows(EntityNotFoundException.class, () -> farmService.deleteById(1L));
+            verify(farmRepository, never()).deleteById(anyLong());
+        }
+    }
+
 
 }
