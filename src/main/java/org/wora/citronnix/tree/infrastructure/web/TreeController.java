@@ -23,13 +23,9 @@ public class TreeController {
 
     @PostMapping()
     public ResponseEntity<?> createTree(@RequestBody TreeRequestDTO treeRequestDto) {
-        try {
-            TreeResponseDTO response = treeService.save(treeRequestDto);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            System.out.println("Error while creating tree: " + e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
-        }
+        TreeResponseDTO response = treeService.save(treeRequestDto);
+        return ResponseEntity.ok(response);
+
     }
 
     @GetMapping
@@ -49,7 +45,7 @@ public class TreeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>delete(@PathVariable long id){
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         treeService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

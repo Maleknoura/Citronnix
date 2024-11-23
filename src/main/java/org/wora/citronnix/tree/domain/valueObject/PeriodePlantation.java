@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Period;
 
 @Embeddable
 @Getter
@@ -31,9 +32,15 @@ public class PeriodePlantation {
         this.dateDerniereRecolte = dateDerniereRecolte;
     }
 
+
+
     private void validatePeriodePlantation(LocalDate date) {
         if (date == null) {
             throw new IllegalArgumentException("La date de plantation ne peut pas être nulle");
+        }
+
+        if (date.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La date de plantation ne peut pas être dans le futur");
         }
 
         Month month = date.getMonth();
@@ -49,7 +56,7 @@ public class PeriodePlantation {
     }
 
     public int getAge() {
-        return LocalDate.now().getYear() - date.getYear();
+        return Period.between(date, LocalDate.now()).getYears();
     }
 
     public int getYear() {

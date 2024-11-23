@@ -43,7 +43,7 @@ public class Tree {
         if (plantationPeriod == null) {
             throw new IllegalStateException("Plantation period is not set");
         }
-        return LocalDate.now().getYear() - plantationPeriod.getYear();
+        return plantationPeriod.getAge();
     }
 
     @Transient
