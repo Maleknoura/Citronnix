@@ -1,7 +1,9 @@
 package org.wora.citronnix.shared.exception;
 
 import jakarta.persistence.EntityExistsException;
-import jakarta.validation.ConstraintViolationException;
+import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -17,9 +19,12 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+        log.error("IllegalArgumentException: ", ex);
         return createErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
 
@@ -34,7 +39,16 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleEntityExistsException(EntityExistsException ex, WebRequest request) {
         return createErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request);
     }
-
+     @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+        log.error("Entity not found: ", ex);
+        return createErrorResponse(
+                HttpStatus.NOT_FOUND,
+                ex.getMessage(),
+                request
+        );
+    }
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleAllUncaughtExceptions(Exception ex, WebRequest request) {

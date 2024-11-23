@@ -2,6 +2,7 @@ package org.wora.citronnix.farm.application.Mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.wora.citronnix.farm.application.dto.nested.FieldNestedDTO;
 import org.wora.citronnix.farm.application.dto.request.FieldRequestDTO;
 import org.wora.citronnix.farm.application.dto.response.FieldResponseDTO;
 import org.wora.citronnix.farm.domain.entity.Farm;
@@ -23,6 +24,7 @@ public interface FieldMapper {
     @Mapping(target = "trees", source = "trees")
 
     FieldResponseDTO toResponseDTO(Field field);
+    FieldNestedDTO toFieldNestedDTO(Field field);
 
     default LocalDate map(PeriodePlantation periodePlantation) {
         return periodePlantation != null ? periodePlantation.getDate() : null;

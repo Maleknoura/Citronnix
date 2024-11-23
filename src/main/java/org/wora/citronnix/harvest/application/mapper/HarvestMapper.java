@@ -11,12 +11,11 @@ import org.wora.citronnix.harvest.domain.entity.Harvest;
 public interface HarvestMapper {
     @Mapping(target = "saison", source = "saison")
     @Mapping(target = "quantiteTotale", source = "quantiteTotale")
-
+    @Mapping(source="sales",target = "sales")
     HarvestResponseDTO toDto(Harvest harvest);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "saison", source = "saison")
-    @Mapping(target = "sales", ignore = true)
     @Mapping(target = "detailsHarvest", ignore = true)
     Harvest toEntity(HarvestRequestDTO dto);
 

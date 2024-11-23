@@ -10,6 +10,7 @@ import org.wora.citronnix.sale.application.dto.request.SaleRequestDTO;
 import org.wora.citronnix.sale.application.dto.response.SaleResponseDTO;
 import org.wora.citronnix.sale.application.mapper.SaleMapper;
 import org.wora.citronnix.sale.application.service.SaleService;
+import org.wora.citronnix.sale.domain.QuantityValidator;
 import org.wora.citronnix.sale.domain.entity.Sale;
 import org.wora.citronnix.sale.domain.repository.SaleRepository;
 
@@ -40,19 +41,26 @@ public class SaleServiceImpl implements SaleService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    @Transactional
-    public SaleResponseDTO save(SaleRequestDTO saleRequestDTO) {
-        Harvest harvest = harvestRepository.findById(saleRequestDTO.harvestId())
-                .orElseThrow(() -> new EntityNotFoundException("Harvest not found"));
+@Override
+@Transactional
+public SaleResponseDTO save(SaleRequestDTO saleRequestDTO) {
+    Harvest harvest = harvestRepository.findById(saleRequestDTO.harvestId())
+            .orElseThrow(() -> new EntityNotFoundException("Harvest not found"));
 
-        Sale sale = saleMapper.toSale(saleRequestDTO);
-        sale.setHarvest(harvest);
+    QuantityValidator quantityValidator = new QuantityValidator(harvest.getQuantiteTotale());
 
-        Sale savedSale = saleRepository.save(sale);
+    quantityValidator.validateQuantity(saleRequestDTO.quantite());
 
-        return saleMapper.toSaleResponseDTO(savedSale);
-    }
+    Sale sale = saleMapper.toSale(saleRequestDTO);
+    sale.setHarvest(harvest);
+
+    harvest.setQuantiteTotale(quantityValidator.updateQuantityAfterSale(saleRequestDTO.quantite()));
+
+    Sale savedSale = saleRepository.save(sale);
+
+    return saleMapper.toSaleResponseDTO(savedSale);
+}
+
 
     @Override
     @Transactional
