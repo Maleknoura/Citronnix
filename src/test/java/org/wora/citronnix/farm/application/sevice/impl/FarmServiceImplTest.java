@@ -159,4 +159,33 @@ class FarmServiceImplTest {
         }
     }
 
+    @Nested
+    @DisplayName("Update Farm Tests")
+    class UpdateFarmTests {
+
+        @Test
+        @DisplayName("Should update farm successfully")
+        void shouldUpdateFarmSuccessfully() {
+            when(farmRepository.findById(1L)).thenReturn(Optional.of(testFarm));
+            when(farmRepository.save(any(Farm.class))).thenReturn(testFarm);
+            when(farmMapper.toFarmResponseDto(any(Farm.class))).thenReturn(testFarmResponseDTO);
+
+            FarmResponseDTO result = farmService.update(1L, testFarmRequestDTO);
+
+            assertNotNull(result);
+            assertEquals(testFarmResponseDTO.id(), result.id());
+            verify(farmRepository).save(any(Farm.class));
+        }
+
+        @Test
+        @DisplayName("Should throw EntityNotFoundException when updating non-existent farm")
+        void shouldThrowExceptionWhenUpdatingNonExistentFarm() {
+            when(farmRepository.findById(1L)).thenReturn(Optional.empty());
+
+            assertThrows(EntityNotFoundException.class,
+                    () -> farmService.update(1L, testFarmRequestDTO));
+            verify(farmRepository, never()).save(any(Farm.class));
+        }
+    }
+
 }
