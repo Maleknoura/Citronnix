@@ -8,6 +8,5 @@ import java.util.Set;
 public record HarvestRequestDTO (
     Long fieldId,
     LocalDate dateRecolte,
-    Season saison,
-    Double quantiteTotale
+    Season saison
     ){}
