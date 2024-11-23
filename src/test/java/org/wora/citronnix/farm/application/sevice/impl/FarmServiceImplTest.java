@@ -14,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.wora.citronnix.farm.application.Mapper.FarmMapper;
 import org.wora.citronnix.farm.application.dto.request.FarmRequestDTO;
@@ -102,6 +104,7 @@ class FarmServiceImplTest {
             verify(farmRepository).findById(1L);
         }
     }
+
     @Nested
     @DisplayName("Save Farm Tests")
     class SaveFarmTests {
@@ -130,6 +133,7 @@ class FarmServiceImplTest {
             verify(farmRepository, never()).save(any(Farm.class));
         }
     }
+
     @Nested
     @DisplayName("Search Farms Tests")
     class SearchFarmsTests {
@@ -150,81 +154,82 @@ class FarmServiceImplTest {
             doReturn(farms).when(farmRepository).findAll(any(Specification.class));
             when(farmMapper.toDto(any(Farm.class))).thenReturn(testFarmResponseDTO);
 
-            List<FarmResponseDTO> results = farmService.searchFarms(criteria);
+            Pageable pageable = PageRequest.of(0, 10);
+
+            List<FarmResponseDTO> results = (List<FarmResponseDTO>) farmService.searchFarms(criteria, pageable);
 
             assertNotNull(results);
             assertFalse(results.isEmpty());
             assertEquals(1, results.size());
             verify(farmRepository).findAll(any(Specification.class));
         }
-    }
 
-    @Nested
-    @DisplayName("Update Farm Tests")
-    class UpdateFarmTests {
+        @Nested
+        @DisplayName("Update Farm Tests")
+        class UpdateFarmTests {
+
+            @Test
+            @DisplayName("Should update farm successfully")
+            void shouldUpdateFarmSuccessfully() {
+                when(farmRepository.findById(1L)).thenReturn(Optional.of(testFarm));
+                when(farmRepository.save(any(Farm.class))).thenReturn(testFarm);
+                when(farmMapper.toFarmResponseDto(any(Farm.class))).thenReturn(testFarmResponseDTO);
+
+                FarmResponseDTO result = farmService.update(1L, testFarmRequestDTO);
+
+                assertNotNull(result);
+                assertEquals(testFarmResponseDTO.id(), result.id());
+                verify(farmRepository).save(any(Farm.class));
+            }
+
+            @Test
+            @DisplayName("Should throw EntityNotFoundException when updating non-existent farm")
+            void shouldThrowExceptionWhenUpdatingNonExistentFarm() {
+                when(farmRepository.findById(1L)).thenReturn(Optional.empty());
+
+                assertThrows(EntityNotFoundException.class,
+                        () -> farmService.update(1L, testFarmRequestDTO));
+                verify(farmRepository, never()).save(any(Farm.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("Delete Farm Tests")
+        class DeleteFarmTests {
+
+            @Test
+            @DisplayName("Should delete farm successfully")
+            void shouldDeleteFarmSuccessfully() {
+                when(farmRepository.existsById(1L)).thenReturn(true);
+                doNothing().when(farmRepository).deleteById(1L);
+
+                assertDoesNotThrow(() -> farmService.deleteById(1L));
+                verify(farmRepository).deleteById(1L);
+            }
+
+            @Test
+            @DisplayName("Should throw EntityNotFoundException when deleting non-existent farm")
+            void shouldThrowExceptionWhenDeletingNonExistentFarm() {
+                when(farmRepository.existsById(1L)).thenReturn(false);
+
+                assertThrows(EntityNotFoundException.class, () -> farmService.deleteById(1L));
+                verify(farmRepository, never()).deleteById(anyLong());
+            }
+        }
 
         @Test
-        @DisplayName("Should update farm successfully")
-        void shouldUpdateFarmSuccessfully() {
-            when(farmRepository.findById(1L)).thenReturn(Optional.of(testFarm));
-            when(farmRepository.save(any(Farm.class))).thenReturn(testFarm);
+        @DisplayName("Should return all farms")
+        void shouldReturnAllFarms() {
+            List<Farm> farms = Arrays.asList(testFarm);
+            when(farmRepository.findAll()).thenReturn(farms);
             when(farmMapper.toFarmResponseDto(any(Farm.class))).thenReturn(testFarmResponseDTO);
 
-            FarmResponseDTO result = farmService.update(1L, testFarmRequestDTO);
+            List<FarmResponseDTO> results = farmService.findAll();
 
-            assertNotNull(result);
-            assertEquals(testFarmResponseDTO.id(), result.id());
-            verify(farmRepository).save(any(Farm.class));
-        }
-
-        @Test
-        @DisplayName("Should throw EntityNotFoundException when updating non-existent farm")
-        void shouldThrowExceptionWhenUpdatingNonExistentFarm() {
-            when(farmRepository.findById(1L)).thenReturn(Optional.empty());
-
-            assertThrows(EntityNotFoundException.class,
-                    () -> farmService.update(1L, testFarmRequestDTO));
-            verify(farmRepository, never()).save(any(Farm.class));
+            assertNotNull(results);
+            assertFalse(results.isEmpty());
+            assertEquals(1, results.size());
+            verify(farmRepository).findAll();
         }
     }
-    @Nested
-    @DisplayName("Delete Farm Tests")
-    class DeleteFarmTests {
-
-        @Test
-        @DisplayName("Should delete farm successfully")
-        void shouldDeleteFarmSuccessfully() {
-            when(farmRepository.existsById(1L)).thenReturn(true);
-            doNothing().when(farmRepository).deleteById(1L);
-
-            assertDoesNotThrow(() -> farmService.deleteById(1L));
-            verify(farmRepository).deleteById(1L);
-        }
-
-        @Test
-        @DisplayName("Should throw EntityNotFoundException when deleting non-existent farm")
-        void shouldThrowExceptionWhenDeletingNonExistentFarm() {
-            when(farmRepository.existsById(1L)).thenReturn(false);
-
-            assertThrows(EntityNotFoundException.class, () -> farmService.deleteById(1L));
-            verify(farmRepository, never()).deleteById(anyLong());
-        }
-    }
-
-
-    @Test
-    @DisplayName("Should return all farms")
-    void shouldReturnAllFarms() {
-        List<Farm> farms = Arrays.asList(testFarm);
-        when(farmRepository.findAll()).thenReturn(farms);
-        when(farmMapper.toFarmResponseDto(any(Farm.class))).thenReturn(testFarmResponseDTO);
-
-        List<FarmResponseDTO> results = farmService.findAll();
-
-        assertNotNull(results);
-        assertFalse(results.isEmpty());
-        assertEquals(1, results.size());
-        verify(farmRepository).findAll();
-    }
-
 }
