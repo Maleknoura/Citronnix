@@ -130,4 +130,33 @@ class FarmServiceImplTest {
             verify(farmRepository, never()).save(any(Farm.class));
         }
     }
+    @Nested
+    @DisplayName("Search Farms Tests")
+    class SearchFarmsTests {
+
+        @Test
+        @DisplayName("Should return filtered farms")
+        void shouldReturnFilteredFarms() {
+            FarmSearchCriteria criteria = new FarmSearchCriteria(
+                    "Test",
+                    null,
+                    50.0,
+                    150.0,
+                    LocalDate.now().minusYears(1),
+                    LocalDate.now()
+            );
+
+            List<Farm> farms = Arrays.asList(testFarm);
+            doReturn(farms).when(farmRepository).findAll(any(Specification.class));
+            when(farmMapper.toDto(any(Farm.class))).thenReturn(testFarmResponseDTO);
+
+            List<FarmResponseDTO> results = farmService.searchFarms(criteria);
+
+            assertNotNull(results);
+            assertFalse(results.isEmpty());
+            assertEquals(1, results.size());
+            verify(farmRepository).findAll(any(Specification.class));
+        }
+    }
+
 }
