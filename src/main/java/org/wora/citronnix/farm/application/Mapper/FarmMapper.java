@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.wora.citronnix.farm.application.dto.request.FarmRequestDTO;
+import org.wora.citronnix.farm.application.dto.request.FarmSearchCriteria;
 import org.wora.citronnix.farm.application.dto.response.FarmResponseDTO;
 import org.wora.citronnix.farm.domain.entity.Farm;
 
@@ -20,6 +21,7 @@ public interface FarmMapper {
     Farm toFarm(FarmRequestDTO farmRequestDTO);
 
 
+    @Mapping(target = "fields", source = "fields")
     FarmResponseDTO toFarmResponseDto(Farm farm);
     void updateFarmFromDTO(FarmRequestDTO farmRequestDTO, @MappingTarget Farm farm);
 
@@ -30,4 +32,6 @@ public interface FarmMapper {
     }
 
     Farm toEntity(FarmResponseDTO farmResponseDTO);
+
+    FarmResponseDTO toDto(Farm farm);
 }

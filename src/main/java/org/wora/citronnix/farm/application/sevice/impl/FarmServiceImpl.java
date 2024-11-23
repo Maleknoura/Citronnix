@@ -3,31 +3,38 @@ package org.wora.citronnix.farm.application.sevice.impl;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.wora.citronnix.farm.application.Mapper.FarmMapper;
 import org.wora.citronnix.farm.application.dto.request.FarmRequestDTO;
+import org.wora.citronnix.farm.application.dto.request.FarmSearchCriteria;
 import org.wora.citronnix.farm.application.dto.response.FarmResponseDTO;
 import org.wora.citronnix.farm.application.sevice.FarmService;
 import org.wora.citronnix.farm.domain.entity.Farm;
 import org.wora.citronnix.farm.domain.repository.FarmRepository;
+import org.wora.citronnix.farm.domain.repository.FarmSpecifications;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Validated
+
 public class FarmServiceImpl implements FarmService {
     private final FarmRepository farmRepository;
     private final FarmMapper farmMapper;
-
     @Autowired
-    public FarmServiceImpl(FarmRepository farmRepository, FarmMapper farmMapper) {
-        this.farmRepository = farmRepository;
-        this.farmMapper = farmMapper;
+    public FarmServiceImpl(FarmRepository farmRepository, FarmMapper farmMapper){
+        this.farmRepository=farmRepository;
+        this.farmMapper=farmMapper;
     }
+
+
 
     @Override
     public FarmResponseDTO findById(Long id) {
@@ -37,6 +44,14 @@ public class FarmServiceImpl implements FarmService {
         } else {
             throw new EntityNotFoundException("Farm not found with id: " + id);
         }
+    }
+
+    public List<FarmResponseDTO> searchFarms(FarmSearchCriteria criteria) {
+        List<Farm> farms = farmRepository.findAll(FarmSpecifications.search(criteria));
+
+        return farms.stream()
+                .map(farmMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 
@@ -87,4 +102,9 @@ public class FarmServiceImpl implements FarmService {
         }
     }
 
+
+    @Override
+    public List<Farm> searchFarms(String nom, String localisation, Double minSuperficie, Double maxSuperficie, LocalDate startDate, LocalDate endDate) {
+        return List.of();
+    }
 }

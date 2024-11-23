@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/Citronnix
     username: postgres
-    password: Administrateur
+    password: administrateur
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
