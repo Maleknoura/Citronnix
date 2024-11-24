@@ -17,7 +17,6 @@ public record FarmRequestDTO(
 
         @NotNull(message = "La date de création ne peut pas être nulle")
         @PastOrPresent(message = "La date de création ne peut pas être dans le futur")
-
         LocalDate dateCreation
 ) {
 }
